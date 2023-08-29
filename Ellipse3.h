@@ -10,6 +10,7 @@ public:
 	Ellipse3(double rx, double ry);
 	~Ellipse3();
 
-	Vector3 point(double t);
-	Vector3 der1(double t);
+	std::array<double, 3> point(double t);
+	std::array<double, 3> der1(double t);
+	std::array<double, 2> get_params();
 };

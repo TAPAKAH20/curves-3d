@@ -10,20 +10,25 @@ Ellipse3::~Ellipse3()
 {
 }
 
-Vector3 Ellipse3::point(double t)
+std::array<double, 3> Ellipse3::point(double t)
 {
-	Vector3 p;
-	p.x = this->radiusX * cos(t);
-	p.y = this->radiusY * sin(t);
-	p.z = 0.0f;
+	std::array<double, 3> p;
+	p[0] = this->radiusX * cos(t);
+	p[1] = this->radiusY * sin(t);
+	p[2] = 0.0f;
 	return p;
 }
 
-Vector3 Ellipse3::der1(double t)
+std::array<double, 3> Ellipse3::der1(double t)
 {
-	Vector3 p;
-	p.x = this->radiusX * -sin(t);
-	p.y = this->radiusY * cos(t);
-	p.z = 0.0f;
+	std::array<double, 3> p;
+	p[0] = this->radiusX * -sin(t);
+	p[1] = this->radiusY * cos(t);
+	p[2] = 0.0f;
 	return p;
+}
+
+std::array<double, 2> Ellipse3::get_params()
+{
+	return std::array<double, 2>{this->radiusX, this->radiusY};
 }

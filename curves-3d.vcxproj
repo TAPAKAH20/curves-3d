@@ -102,8 +102,6 @@
     <ClInclude Include="Curve3.h" />
     <ClInclude Include="Ellipse3.h" />
     <ClInclude Include="Helix.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="TypeStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Circle3.cpp" />
