@@ -25,8 +25,13 @@ int main(int argc, char* argv[]) {
 
 	srand(time(NULL));
 
-	const unsigned int n = 5;
-	std::array<std::unique_ptr<Curve3>,n> arr1;
+	unsigned int n = 5;
+	std::printf("Amount of curves to create: ");
+	std::scanf("%d", &n);
+	std::printf("\n");
+
+
+	std::vector<std::unique_ptr<Curve3>> curves(n);
 
 	//Curve parameters restrictions
 	const double min_rad = 0.0f;
@@ -38,13 +43,13 @@ int main(int argc, char* argv[]) {
 	for (int i = 0; i < n; i++) {
 		switch (rand() % 3) {
 			case 0:
-				arr1[i].reset(new Circle3(min_rad + rand_float(max_rad)));
+				curves[i] = (std::make_unique<Circle3>(min_rad + rand_float(max_rad)));
 				break;
 			case 1:
-				arr1[i].reset(new Ellipse3(min_rad + rand_float(max_rad), min_rad + rand_float(max_rad)));
+				curves[i] = (std::make_unique <Ellipse3>(min_rad + rand_float(max_rad), min_rad + rand_float(max_rad)));
 				break;
 			case 2:
-				arr1[i].reset(new Helix(min_rad + rand_float(max_rad), min_step + rand_float(max_step)));
+				curves[i] = (std::make_unique <Helix>(min_rad + rand_float(max_rad), min_step + rand_float(max_step)));
 				break;
 		}
 	}
@@ -55,8 +60,8 @@ int main(int argc, char* argv[]) {
 		std::array<double, 3>  point, derivative;
 		double t = M_PI_4;
 		
-		point = arr1[i]->point(t);
-		derivative = arr1[i]->der1(t);
+		point = curves[i]->point(t);
+		derivative = curves[i]->der1(t);
 
 
 		std::printf("%d\t%.6lf\t%.6lf\t%.6lf\n"
@@ -71,10 +76,10 @@ int main(int argc, char* argv[]) {
 
 	for (int i = 0; i < n; i++) {
 		std::array<double, 2> curve_params;
-		curve_params = arr1[i]->get_params();
+		curve_params = curves[i]->get_params();
 
 		if (curve_params[1] == 0) {
-			circles.push_back(dynamic_cast<Circle3*> (arr1[i].get()));
+			circles.push_back(dynamic_cast<Circle3*> (curves[i].get()));
 		}
 	}
 
@@ -94,6 +99,5 @@ int main(int argc, char* argv[]) {
 	}
 	std::printf("\n\n%.6lf", radii_sum);
 
-	std::getchar();
 	return 0;
 }
