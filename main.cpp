@@ -9,6 +9,8 @@
 #include <vector>
 #include <memory>
 
+#include <omp.h>
+
 
 #include "Curve3.h"
 #include "Circle3.h"
@@ -26,7 +28,7 @@ int main(int argc, char* argv[]) {
 	srand(time(NULL));
 
 	unsigned int n = 5;
-	std::printf("Amount of curves to create: ");
+	std::printf("Number of curves to create: ");
 	std::scanf("%d", &n);
 	std::printf("\n");
 
@@ -93,11 +95,12 @@ int main(int argc, char* argv[]) {
 	);
 
 	//Calculate and print cummulative sum of radii
-	double radii_sum = 0.0f;
+	double sum = 0.0f;
+	#pragma omp parallel for reduction(+ : sum)
 	for (int i = 0; i < circles.size(); i++) {
-		radii_sum += circles[i]->radius;
+		sum += circles[i]->radius;
 	}
-	std::printf("\n\n%.6lf", radii_sum);
+	std::printf("\n\n%.6lf", sum);
 
 	return 0;
 }
